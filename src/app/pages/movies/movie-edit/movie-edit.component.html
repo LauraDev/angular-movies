@@ -1,0 +1,90 @@
+<div class="container">
+    <div *ngIf="!submitted">
+      <h1 style="margin-bottom:30px">Formulaire: Films</h1>
+      <form #movieForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="title">Titre</label>
+          <input  type="text" class="form-control" id="title" required minlength="4"
+                  name="title" [(ngModel)]="movie.title" #title="ngModel">
+          <div *ngIf="title.errors?.required && (title.dirty || title.touched)" class="alert alert-danger">
+            Le titre est requis.
+          </div>
+          <div *ngIf="title.errors?.minlength && (title.dirty || title.touched)" class="alert alert-danger">
+            Le titre doit faire plus de 4 caractères.
+          </div>
+          <!-- <div [hidden]="firstname.valid || firstname.pristine" class="alert alert-danger">
+            Le prénom est requis
+          </div> -->
+        </div>
+        <div class="form-group">
+          <label for="directors">Réalisateur(s)</label>
+          <select class="form-control" id="directors" required multiple
+            [(ngModel)]="movie.directors" name="directors" #directors="ngModel">
+            <option *ngFor="let director of directorsList" [value]="director">{{director}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="actors">Acteur(s)</label>
+          <select class="form-control" id="actors" required multiple
+            [(ngModel)]="movie.actors" name="actors" #actors="ngModel">
+            <option *ngFor="let actor of actorsList" [value]="actor">{{actor}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="genres">Genre(s)</label>
+          <select class="form-control" id="genres" required multiple
+            [(ngModel)]="movie.genres" name="genres" #genres="ngModel">
+            <option *ngFor="let genre of genresList" [value]="genre">{{genre}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="synopsis">Synopsis</label>
+          <input  type="text" class="form-control" id="synopsis" maxlength="250"
+                  name="synopsis" [(ngModel)]="movie.synopsis" #synopsis="ngModel">
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!movieForm.form.valid">Soumettre</button>
+        <button type="button" class="btn btn-default" (click)="newMovie(); contactForm.reset()">Réinitialiser</button>
+      </form>
+    </div>
+  
+    <div *ngIf="submitted">
+      <h2>Informations</h2>
+      <div class="row">
+          <div class="col-xs-3"><strong>Titre: </strong></div>
+          <div class="col-xs-9 pull-left">{{ movie.title }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3"><strong>Réalisateur(s): </strong></div>
+          <div class="col-xs-9 pull-left">
+            <span *ngFor='let director of movie.directors; index as i'> 
+              <span *ngIf='i !== movie.directors.length-1'>  {{director}},</span>
+              <span *ngIf='i === movie.directors.length-1'> {{director}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3"><strong>Acteur(s): </strong></div>
+          <div class="col-xs-9 pull-left">
+            <span *ngFor='let actor of movie.actors; index as i'> 
+              <span *ngIf='i !== movie.actors.length-1'>  {{actor}},</span>
+              <span *ngIf='i === movie.actors.length-1'> {{actor}}</span>
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3"><strong>Genre(s): </strong></div>
+          <div class="col-xs-9 pull-left">
+            <span *ngFor='let genre of movie.genres; index as i'>
+              <span *ngIf='i !== movie.genres.length-1'> {{genre}},</span>
+              <span *ngIf='i === movie.genres.length-1'> {{genre}}</span>
+            </span>
+          </div>
+        </div>
+        <div *ngIf="movie.synopsis" class="row">
+          <div class="col-xs-3"><strong>Synopsis: </strong></div>
+          <div class="col-xs-9 pull-left">{{ movie.synopsis }}</div>
+        </div>
+        <br>
+        <button class="btn btn-success" (click)="submitted=false">Editer</button>
+      </div>
+  </div>

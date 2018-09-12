@@ -1,0 +1,19 @@
+<div class="container" id="search-component" style="margin-top:30px;margin-bottom:20px">
+    <div class="row">
+        <div class="col">
+            <h4>Rechercher un film</h4>
+            <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+            <ul class="search-result">
+                <li *ngFor="let movie of movies$ | async">
+                    <a class="btn btn-default" routerLink="/movie/{{movie.id}}">
+                        {{movie.title}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col">
+            <h4>Ajouter un nouveau film</h4>
+            <a class="btn btn-info mx-auto" [routerLink]="['/movie/new']">Créer</a>
+        </div>
+    </div>
+</div>
